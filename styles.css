@@ -50,3 +50,35 @@ body {
   color: var(--primary-color);
   font-weight: bold;
 }
+
+/*---SIMULATION AREA STYLES---*/
+.simulation-area {
+  position: relative;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/*The pivot [cite: 16,35]*/
+.pivot {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 45px solid var(--accent-color);
+  position: absolute;
+  bottom: 105px; /* Adjusted to sit on top of the plank */
+  z-index: 1;
+}
+/*The plank [cite: 34]*/
+.plank {
+  width: var(--plank-width);
+  height: 12px;
+  background: var(--primary-color);
+  position: relative;
+  transform-origin: center center; /* Pivot point for rotation */
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 1); /* Smooth rotation */
+  border-radius: 6px;
+  z-index: 2;
+  cursor: crosshair;
+}
