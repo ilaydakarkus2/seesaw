@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seesaw Case - İlayda Karkuş</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Top stats / HUD -->
+      <header class="info-panel">
+        <!-- Total weight on the left side -->
+        <div class="stat">
+          <span class="label">LEFT WEIGHT</span>
+          <span id="left-weight-display" class="value">0.0 kg</span>
+        </div>
+
+        <!-- Upcoming random weight to be dropped on next click -->
+        <div class="stat highlighted">
+          <span class="label">NEXT WEIGHT</span>
+          <span id="next-weight-display" class="value">? kg</span>
+        </div>
+
+        <!-- Total weight on the right side -->
+        <div class="stat">
+          <span class="label">RIGHT WEIGHT</span>
+          <span id="right-weight-display" class="value">0.0 kg</span>
+        </div>
+
+        <!-- Current tilt angle of the seesaw -->
+        <div class="stat">
+          <span class="label">TILT ANGLE</span>
+          <span id="tilt-angle-display" class="value">0.0°</span>
+        </div>
+      </header>
+
+      <!-- Simulation playground -->
+      <main id="simulation-area" class="simulation-area">
+        <!-- Pivot point (center) -->
+        <div class="pivot"></div>
+
+        <!-- The plank: click here to drop a weight -->
+        <div id="plank" class="plank">
+          <div id="objects-container"></div>
+        </div>
+
+        <!-- Hover indicator for where the next weight will land -->
+        <div id="preview-ball" aria-hidden="true"></div>
+      </main>
+
+      <footer class="controls">
+        <!-- Resets state and clears all objects -->
+        <button id="reset-button" class="reset-button">Reset Seesaw</button>
+      </footer>
+
+      <!-- Small status / debug log -->
+      <div id="log-area" class="log-area">
+        <small>Simulation status: Ready to interact.</small>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
