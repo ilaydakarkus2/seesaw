@@ -50,7 +50,10 @@ body {
   color: var(--primary-color);
   font-weight: bold;
 }
-
+/* Highlight for the "Next Weight" feature to improve UX */
+.highlighted .value {
+  color: #2980b9;
+}
 /*---SIMULATION AREA STYLES---*/
 .simulation-area {
   position: relative;
@@ -81,4 +84,43 @@ body {
   border-radius: 6px;
   z-index: 2;
   cursor: crosshair;
+}
+/*The weight boxes [cite: 36]*/
+.weight-box {
+  position: absolute;
+  bottom: 12px; /* Sit on top of the plank */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  transform: translateX(-50%); /* Center the weight box horizontally */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/*---CONTROL BUTTON STYLES---*/
+.reset-button {
+  margin-top: 50px;
+  padding: 12px 35px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+.resert-button:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
+
+.log-area {
+  margin-top: 20px;
+  color: #7f8c8d;
+  font-style: italic;
 }
