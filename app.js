@@ -62,7 +62,6 @@ function updatePhysics() {
   if (DOM.balanceStatus) {
     const torqueDiff = leftTorque - rightTorque;
     if (Math.abs(torqueDiff) < 10) {
-      // Çok küçük farklar dengede sayılır
       DOM.balanceStatus.textContent = "Balanced";
       DOM.balanceStatus.className = "status-balanced";
     } else {
@@ -92,10 +91,12 @@ function updatePhysics() {
 /**
  * Handles object placement when the plank is clicked
  */
-DOM.plank.addEventListener("click", (e) => {
-  const rect = DOM.plank.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-  const distance = clickX - CONFIG.PHYSICS.PLANK_CENTER;
+DOM.simulationArea.addEventListener("click", (e) => {
+  const rect = DOM.simulationArea.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const distance = e.clientX - centerX;
+  const maxDistance = CONFIG.PHYSICS.PLANK_CENTER; // 200px
+  if (Math.abs(distance) > maxDistance) return;
   const newObj = {
     id: Date.now(),
     weight: State.nextWeight,
@@ -217,4 +218,4 @@ DOM.resetBtn.addEventListener("click", () => {
 });
 
 State.generateNextWeight();
-loadFromLocalStorage();
+//loadFromLocalStorage();
