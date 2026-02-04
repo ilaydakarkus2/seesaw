@@ -30,6 +30,9 @@ const DOM = {
   previewBall: document.getElementById("preview-ball"),
   simulationArea: document.getElementById("simulation-area"),
   logArea: document.getElementById("log-area"),
+  leftTorque: document.getElementById("left-torque"),
+  rightTorque: document.getElementById("right-torque"),
+  balanceStatus: document.getElementById("balance-status"),
 };
 
 /* --- CORE LOGIC --- */
@@ -45,14 +48,29 @@ function updatePhysics() {
   let rightSum = 0;
 
   State.objects.forEach((obj) => {
+    const torqueValue = obj.weight * Math.abs(obj.distance);
     if (obj.distance < 0) {
-      leftTorque += obj.weight * Math.abs(obj.distance);
+      leftTorque += torqueValue;
       leftSum += obj.weight;
     } else {
-      rightTorque += obj.weight * obj.distance;
+      rightTorque += torqueValue;
       rightSum += obj.weight;
     }
   });
+  if (DOM.leftTorque) DOM.leftTorque.textContent = leftTorque.toFixed(0);
+  if (DOM.rightTorque) DOM.rightTorque.textContent = rightTorque.toFixed(0);
+  if (DOM.balanceStatus) {
+    const torqueDiff = leftTorque - rightTorque;
+    if (Math.abs(torqueDiff) < 10) {
+      // Çok küçük farklar dengede sayılır
+      DOM.balanceStatus.textContent = "Balanced";
+      DOM.balanceStatus.className = "status-balanced";
+    } else {
+      DOM.balanceStatus.textContent =
+        torqueDiff > 0 ? "Tilting Left" : "Tilting Right";
+      DOM.balanceStatus.className = "status-tilting";
+    }
+  }
 
   // Angle calculation based on torque difference
   const diff = rightTorque - leftTorque;
