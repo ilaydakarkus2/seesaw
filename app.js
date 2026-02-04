@@ -107,15 +107,32 @@ function renderObject(obj) {
 /* --- PERSISTENCE & INITIALIZATION --- */
 
 function saveToLocalStorage() {
-  localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(State.objects));
+  const dataToSave = {
+    objects: State.objects,
+    nextWeight: State.nextWeight,
+  };
+  localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(dataToSave));
 }
 
 function loadFromLocalStorage() {
   const data = localStorage.getItem(CONFIG.STORAGE_KEY);
-  if (data) {
-    State.objects = JSON.parse(data);
-    State.objects.forEach((obj) => renderObject(obj));
-    updatePhysics();
+  if (!data) return;
+  try {
+    const parsedData = JSON.parse(data);
+    if (parsedData && Array.isArray(parsedData.objects)) {
+      State.objects = parsedData.objects;
+      if (parsedData.nextWeight) {
+        State.nextWeight = parsedData.nextWeight;
+        document.getElementById("next-weight-display").innerText =
+          `${State.nextWeight} kg`;
+      }
+      State.objects.forEach((obj) => renderObject(obj));
+      updatePhysics();
+    }
+  } catch (e) {
+    console.error("Failed to load simulation state:", e);
+    localStorage.removeItem(CONFIG.STORAGE_KEY);
+    State.objects = [];
   }
 }
 
@@ -126,6 +143,5 @@ DOM.resetBtn.addEventListener("click", () => {
   updatePhysics();
 });
 
-// Start the app
 State.generateNextWeight();
 loadFromLocalStorage();
