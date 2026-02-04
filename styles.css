@@ -14,12 +14,17 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  overflow: hidden;
 }
 
 .container {
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   text-align: center;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 
 /*---INFO PANEL STYLES---*/
@@ -59,6 +64,7 @@ body {
   position: relative;
   height: 300px;
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
 }
@@ -113,6 +119,7 @@ body {
   pointer-events: none;
   animation: dropBall 0.35s ease-out forwards;
 }
+
 @keyframes dropBall {
   from {
     transform: translate(-50%, -150%);
@@ -126,7 +133,6 @@ body {
 /* preview ball */
 #preview-ball {
   position: absolute;
-  pointer-events: none;
   transform: translate(-50%, -100%);
   border-radius: 50%;
   display: flex;
@@ -146,8 +152,8 @@ body {
 
 /*---CONTROL BUTTON STYLES---*/
 .reset-button {
-  margin-top: 50px;
-  padding: 12px 35px;
+  margin-top: 20px;
+  padding: 10px 30px;
   background: var(--accent-color);
   color: white;
   border: none;
@@ -159,14 +165,15 @@ body {
     transform 0.2s;
 }
 
-.resert-button:hover {
+.reset-button:hover {
   background: #c0392b;
   transform: scale(1.05);
 }
 
 .log-area {
-  min-height: 120px;
-  max-height: 150px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  max-height: 70px;
   overflow-y: auto;
   background: #f1f5f9;
   padding: 12px;
@@ -174,12 +181,13 @@ body {
   font-size: 13px;
   color: #000000;
   border: 1px solid #e0e0e0;
-  margin-top: 10px;
+  margin-top: 20px;
   font-family: "Inter", sans-serif;
+  margin-bottom: 25px;
 }
 
 .log-entry {
-  padding: 8px 12px;
+  padding: 20px 20px;
   margin-bottom: 6px;
   background: #f8fafc;
   border-left: 4px solid #3498db; /* Mavi bir çizgi profesyonel durur */
