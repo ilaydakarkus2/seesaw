@@ -27,6 +27,8 @@ const DOM = {
   rightWeight: document.getElementById("right-weight-display"),
   tiltAngle: document.getElementById("tilt-angle-display"),
   resetBtn: document.getElementById("reset-button"),
+  previewBall: document.getElementById("preview-ball"),
+  simulationArea: document.getElementById("simulation-area"),
 };
 
 /* --- CORE LOGIC --- */
@@ -75,7 +77,6 @@ DOM.plank.addEventListener("click", (e) => {
   const rect = DOM.plank.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
   const distance = clickX - CONFIG.PHYSICS.PLANK_CENTER;
-
   const newObj = {
     id: Date.now(),
     weight: State.nextWeight,
@@ -89,11 +90,32 @@ DOM.plank.addEventListener("click", (e) => {
   updatePhysics();
 });
 
+DOM.simulationArea.addEventListener("mousemove", (e) => {
+  const rect = DOM.simulationArea.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  if (DOM.previewBall) {
+    DOM.previewBall.style.opacity = "0.5";
+    DOM.previewBall.style.left = `${mouseX}px`;
+    DOM.previewBall.style.top = `${mouseY}px`;
+    DOM.previewBall.innerText = `${State.nextWeight}kg`;
+    DOM.previewBall.style.backgroundColor =
+      State.nextWeight > 5 ? "#e74c3c" : "#3498db";
+
+    const size = 20 + State.nextWeight * 2.5;
+    DOM.previewBall.style.width = `${size}px`;
+    DOM.previewBall.style.height = `${size}px`;
+  }
+});
+DOM.simulationArea.addEventListener("mouseleave", () => {
+  if (DOM.previewBall) {
+    DOM.previewBall.style.opacity = "0";
+  }
+});
 function renderObject(obj) {
   const el = document.createElement("div");
   el.className = "weight-box";
 
-  // Scale size based on weight for visual feedback
   const size = 20 + obj.weight * 2.5;
   el.style.width = `${size}px`;
   el.style.height = `${size}px`;
