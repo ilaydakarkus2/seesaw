@@ -29,6 +29,7 @@ const DOM = {
   resetBtn: document.getElementById("reset-button"),
   previewBall: document.getElementById("preview-ball"),
   simulationArea: document.getElementById("simulation-area"),
+  logArea: document.getElementById("log-area"),
 };
 
 /* --- CORE LOGIC --- */
@@ -83,7 +84,7 @@ DOM.plank.addEventListener("click", (e) => {
     distance: distance,
     color: `hsl(${Math.random() * 360}, 65%, 50%)`,
   };
-
+  logDrop(State.nextWeight, distance);
   State.objects.push(newObj);
   renderObject(newObj);
   State.generateNextWeight();
@@ -126,6 +127,36 @@ function renderObject(obj) {
   DOM.objectsContainer.appendChild(el);
 }
 
+/* --- LOGGING --- */
+
+function logDrop(weight, distance) {
+  if (!DOM.logArea) return;
+
+  if (DOM.logArea.querySelector("small")) {
+    DOM.logArea.innerHTML = "";
+  }
+
+  const side =
+    Math.abs(distance) < (CONFIG.PHYSICS.CENTER_THRESHOLD || 5)
+      ? "center"
+      : distance < 0
+        ? "left"
+        : "right";
+
+  const px = Math.abs(distance).toFixed(0);
+
+  const div = document.createElement("div");
+  div.className = `log-entry ${weight > 5 ? "heavy" : ""}`;
+  div.innerHTML = `
+    <span><strong>${weight}kg</strong> dropped on <strong>${side}</strong></span>
+    <span style="color: #94a3b8; font-size: 11px;">${px}px from center</span>
+  `;
+  div.style.padding = "2px 0";
+  div.textContent = `${weight}kg dropped on ${side} side at ${px}px from center`;
+
+  DOM.logArea.prepend(div);
+}
+
 /* --- PERSISTENCE & INITIALIZATION --- */
 
 function saveToLocalStorage() {
@@ -161,6 +192,8 @@ function loadFromLocalStorage() {
 DOM.resetBtn.addEventListener("click", () => {
   State.objects = [];
   DOM.objectsContainer.innerHTML = "";
+  DOM.logArea.innerHTML =
+    "<small>Simulation status: Ready to interact.</small>";
   localStorage.removeItem(CONFIG.STORAGE_KEY);
   updatePhysics();
 });
